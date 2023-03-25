@@ -1,3 +1,4 @@
+import {loadModelAndPredict} from './model.js';
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const toggleKeypointsButton = document.getElementById("toggleKeypointsButton");
@@ -55,14 +56,16 @@ async function detectHands() {
       keypointsOutput.appendChild(keypointsElement);
 
       // Draw dots at each keypoint
-for (let j = 0; j < keypoints.length; j++) {
-  keypointsCtx.beginPath();
-  keypointsCtx.arc(keypoints[j][0], keypoints[j][1], 5, 0, 2 * Math.PI);
-  keypointsCtx.fillStyle = "red";
-  keypointsCtx.fill();
-}
+      for (let j = 0; j < keypoints.length; j++) {
+        keypointsCtx.beginPath();
+        keypointsCtx.arc(keypoints[j][0], keypoints[j][1], 5, 0, 2 * Math.PI);
+        keypointsCtx.fillStyle = "red";
+        keypointsCtx.fill();
+      }
 
     }
+    
+    loadModelAndPredict(keypointsOutput);
 
     if (isCameraOn) {
       // Call the detect function again after a delay for keypoint detection
