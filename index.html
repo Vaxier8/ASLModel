@@ -1,105 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASL MODEL</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: #FFFFFF;
-        }
-        .title-bar {
-            background-color: #000000;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 24px;
-        }
-        .name-section {
-            background-color: #383837;
-            padding: 20px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        .content-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-            background-color: #5E5E5C;
-        }
-        .pattern-paragraph, .image-container {
-            width: 45%;
-            margin-bottom: 0px;
-        }
-        h2 {
-            color: #000000;
-        }
-        .run-model-button {
-            display: block;
-            width: 250px;
-            height: 60px;
-            background-image: linear-gradient(to top right, #057840 50%, #057840 50%);
-            color: white;
-            font-size: 20px;
-            text-align: center;
-            line-height: 60px;
-            margin: 20px auto;
-            border-radius: 4px;
-            text-decoration: none;
-            border: 2px solid white;
-        }
-        .name {
-            margin: 0 5px;
-            text-decoration: underline;
-        }
-        .outlined-paragraph {
-            border: 2px solid #b3b300;
-            border-radius: 10px;
-            padding: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hand Detection</title>
+  <!-- Import TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.12.0"></script>
+  <!-- Import Hand Detection model -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose@0.0.7"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #282c34;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #61dafb;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      outline: none;
+    }
+    
+
+    button:hover {
+      background-color: #4da9e7;
+    }
+
+    button:active {
+      background-color: #3b8dbd;
+    }
+
+    button:disabled {
+      background-color: #a9a9a9;
+      cursor: not-allowed;
+    }
+
+    .video-container {
+      position: absolute;
+      display: flex;
+      /* align-items: center; */
+      justify-content: center; /* Add this line */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Add this line */
+    }
+
+    canvas, video {
+      width: 640px;
+      height: 480px;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      left: 20;
+      right: 0;
+    }
+    .keypoints-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="title-bar">ASL Model</div>
-    <div class="name-section">
-        <span class="name">Logan Warren</span>
-        <span class="name">Xavier Bear</span>
-        <span class="name">Chris Landingin</span>
-        <span class="name">Brayden Nguyen</span>
-    </div>
-    <div class="content-section">
-        <div class="pattern-paragraph">
-            <h2>ASL Model Motivation</h2>
-            <p class="outlined-paragraph">The motivation for our ASL Model project is to provide a more accessible and 
-                efficient means of communication for individuals who are deaf or hard of hearing. American Sign Language (ASL) 
-                is a complex language that uses hand gestures and facial expressions to convey meaning. However, not everyone is 
-                proficient in ASL, which can create communication barriers for those who rely on it. By developing a model that can 
-                recognize and translate signed letters into text, we hope to bridge this gap and enable smoother communication for all. 
-            Additionally, this project can have potential applications in fields such as education and healthcare, where ASL interpretation 
-            is essential but not always readily available.</p>
-        </div>
-        <div class="image-container">
-            <img src="image1.jpg" alt="Image 1" width="546" height="350">
-        </div>
-        <div class="image-container">
-            <img src="asl-clipart-ASL.png" alt="Image 2" width="100%" height="auto">
-        </div>
-        <div class="pattern-paragraph">
-            <h2>ASL Model Description</h2>
-            <p class="outlined-paragraph">Our model works by taking live video, feeding it through TensorFlow to use the data from people's
-                hand gestures. We feed that data into a model that we trained with around 25 thousand pictures 
-                that returns a sign languange letter with __% confidence!
-            </p>
-        </div>
-    </div>
-    <a href="asl.html" class="run-model-button">Run Model</a>
+  <div class="top-container">
+    <button id="startButton">Start Camera</button>
+    <button id="stopButton" disabled>Stop Camera</button>
+    <button id="toggleKeypointsButton">Toggle Keypoints</button>
+  </div>
+  <div class="video-container">
+    <video id="video" width="640" height="480" style="display: none;"></video>
+    <canvas id="videoCanvas" width="640" height="480" style="display: none;"></canvas>
+    <canvas id="keypointsCanvas" width="640" height="480"></canvas>
+  </div>
+  <div class="keypoints-container">
+    <div id="keypointsOutput" style="color:white"> </div>
+  </div>
+  <script src="main.js"></script>
 </body>
 </html>
-
