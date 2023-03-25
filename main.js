@@ -105,11 +105,8 @@ async function detectHands() {
         keypointsCtx.fillStyle = "red";
         keypointsCtx.fill();
       }
-
     }
-    
-    loadModelAndPredict(keypointsOutput);
-
+  
     if (isCameraOn) {
       // Call the detect function again after a delay for keypoint detection
       setTimeout(() => {
