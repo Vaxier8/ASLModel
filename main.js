@@ -1,4 +1,3 @@
-import {loadModelAndPredict} from './model.js';
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const border = document.getElementById("border");
@@ -12,6 +11,41 @@ const keypointsCtx = keypointsCanvas.getContext("2d");
 let isCameraOn = false;
 let showKeypoints = true;
 var delay = 2000;
+
+const textOutput = document.getElementById("textOutput");
+let arr = [null, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+ 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '0'];
+
+
+async function loadModelAndPredict(inputData) { 
+    // Replace the path with the actual path to your model.json file 
+    const modelUrl = "./model.json";
+
+    // Load the model 
+    const model = await tf.loadLayersModel(modelUrl);
+    
+    // Prepare the input data 
+    // inputData should be an array or a tensor with the shape your model expects 
+    const input = tf.tensor(inputData);
+    
+    // Make a prediction using the model 
+    const prediction = model.predict(input);
+    
+    
+    // Log the prediction to the console 
+
+    // keypointsElement.textContent = arr[prediction];
+    const predictionArray = await prediction.array();
+    
+    // Log the prediction to the console 
+    for(var i = 0; i < predictionArray.length(); i++) {
+        console.log("Prediction:", predictionArray[i]);
+    }
+    
+    // Don't forget to dispose the tensors to avoid memory leaks 
+    input.dispose(); 
+    prediction.dispose(); 
+}
 
 async function setupCamera() {
   const stream = await navigator.mediaDevices.getUserMedia({

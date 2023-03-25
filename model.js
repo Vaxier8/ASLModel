@@ -1,3 +1,7 @@
+const textOutput = document.getElementById("textOutput");
+let arr = [null, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+ 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '0'];
+
 
 export async function loadModelAndPredict(inputData) { 
     // Replace the path with the actual path to your model.json file 
@@ -13,11 +17,16 @@ export async function loadModelAndPredict(inputData) {
     // Make a prediction using the model 
     const prediction = model.predict(input);
     
+    
+    // Log the prediction to the console 
     // Convert the prediction to a JavaScript array 
     const predictionArray = await prediction.array();
     
     // Log the prediction to the console 
-    console.log("Prediction:", predictionArray);
+    for(var i = 0; i < predictionArray.length(); i+=4) {
+        console.log("Prediction:", predictionArray[i]);
+    }
+    // keypointsElement.textContent = arr[prediction];
     
     // Don't forget to dispose the tensors to avoid memory leaks 
     input.dispose(); 
