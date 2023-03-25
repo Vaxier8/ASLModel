@@ -1,4 +1,3 @@
-import {loadModelAndPredict} from './model.js';
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const border = document.getElementById("border");
@@ -71,11 +70,8 @@ async function detectHands() {
         keypointsCtx.fillStyle = "red";
         keypointsCtx.fill();
       }
-
     }
-    
-    loadModelAndPredict(keypointsOutput);
-
+  
     if (isCameraOn) {
       // Call the detect function again after a delay for keypoint detection
       setTimeout(() => {
