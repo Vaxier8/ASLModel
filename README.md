@@ -19,6 +19,35 @@ Once our model has been trained, we integrated it into our web application using
 
 Overall, our ASL Letter Recognition web application is a powerful tool for helping people communicate more effectively with those who use ASL. It is a proof of concept for deeper and more complex ASL to be translated almost instantly. By leveraging the power of machine learning and deep learning algorithms, we are able to create an application that is highly accurate and responsive, making it easy for anyone to use.
 
+async function loadModelAndPredict(inputData) {
+  // Replace the path with the actual path to your model.json file
+  const modelUrl = "path/to/your/model.json";
+
+  // Load the model
+  const model = await tf.loadLayersModel(modelUrl);
+
+  // Prepare the input data
+  // inputData should be an array or a tensor with the shape your model expects
+  const input = tf.tensor(inputData);
+
+  // Make a prediction using the model
+  const prediction = model.predict(input);
+
+  // Convert the prediction to a JavaScript array
+  const predictionArray = await prediction.array();
+
+  // Log the prediction to the console
+  console.log("Prediction:", predictionArray);
+
+  // Don't forget to dispose the tensors to avoid memory leaks
+  input.dispose();
+  prediction.dispose();
+}
+
+// Call the function with some example input data
+const exampleInputData = [1, 2, 3, 4]; // Replace this with the actual input data
+loadModelAndPredict(exampleInputData);
+
 
 ## MIT License
 Allows:

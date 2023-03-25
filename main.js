@@ -1,6 +1,7 @@
 import {loadModelAndPredict} from './model.js';
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
+const border = document.getElementById("border");
 const toggleKeypointsButton = document.getElementById("toggleKeypointsButton");
 const video = document.getElementById("video");
 const canvas = document.getElementById("videoCanvas");
@@ -43,18 +44,26 @@ async function detectHands() {
   async function detect() {
     const predictions = await model.estimateHands(video);
     keypointsCtx.clearRect(0, 0, keypointsCanvas.width, keypointsCanvas.height);
-
+  
     const keypointsOutput = document.getElementById("keypointsOutput");
     keypointsOutput.innerHTML = ""; // Clear previous keypoints
-    
+  
     for (let i = 0; i < predictions.length; i++) {
       const keypoints = predictions[i].landmarks;
-
-      const keypointsText = `Hand ${i + 1}: ${JSON.stringify(keypoints)}`;
+      let normalizedKeypoints = [];
+  
+      // Normalize keypoints and create a 1D array
+      for (let j = 0; j < keypoints.length; j++) {
+        const normalizedX = keypoints[j][0] / video.width;
+        const normalizedY = keypoints[j][1] / video.height;
+        normalizedKeypoints.push(normalizedX, normalizedY);
+      }
+  
+      const keypointsText = `Hand ${i + 1}: ${JSON.stringify(normalizedKeypoints)}`;
       const keypointsElement = document.createElement("pre");
       keypointsElement.textContent = keypointsText;
       keypointsOutput.appendChild(keypointsElement);
-
+  
       // Draw dots at each keypoint
       for (let j = 0; j < keypoints.length; j++) {
         keypointsCtx.beginPath();
@@ -74,9 +83,13 @@ async function detectHands() {
       }, delay);
     }
   }
+  
+  // Rest of the code remains the same
+  
 
   detect();
 }
+
 
 function setDelay(x) {
   delay = x;
@@ -90,6 +103,7 @@ async function main() {
     isCameraOn = true;
     startButton.disabled = true;
     stopButton.disabled = false;
+    border.style.display = "block";
     video.style.display = "none";
     canvas.style.display = "block";
     keypointsCanvas.style.display = "block";
@@ -100,6 +114,7 @@ async function main() {
     isCameraOn = false;
     startButton.disabled = false;
     stopButton.disabled = true;
+    border.style.display = "none";
     video.style.display = "none";
     canvas.style.display = "none";
     keypointsCanvas.style.display = "none";
