@@ -1,7 +1,8 @@
-# ASLModel
+# STEELHACKS ASLModel 
 [Hosted Here!](vaxier8.github.io)
 
 
+##Members
 Brayden Nguyen, Logan Warren, Xavier Bear, Chris Landingin
 
 
