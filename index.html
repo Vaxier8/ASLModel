@@ -21,7 +21,7 @@
             font-size: 24px;
         }
         .name-section {
-            background-color: #5E5E5C;
+            background-color: #383837;
             padding: 20px;
             display: flex;
             justify-content: space-around;
@@ -32,11 +32,11 @@
             flex-wrap: wrap;
             justify-content: space-around;
             padding: 20px;
-            background-color: #383837;
+            background-color: #5E5E5C;
         }
         .pattern-paragraph, .image-container {
             width: 45%;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
         }
         h2 {
             color: #000000;
@@ -86,14 +86,17 @@
             is essential but not always readily available.</p>
         </div>
         <div class="image-container">
-            <img src="image1.jpg" alt="Image 1" width="100%" height="auto">
+            <img src="image1.jpg" alt="Image 1" width="546" height="350">
         </div>
         <div class="image-container">
             <img src="asl-clipart-ASL.png" alt="Image 2" width="100%" height="auto">
         </div>
         <div class="pattern-paragraph">
             <h2>ASL Model Description</h2>
-            <p class="outlined-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus condimentum libero, et cursus nulla egestas vitae.</p>
+            <p class="outlined-paragraph">Our model works by taking live video, feeding it through TensorFlow to use the data from people's
+                hand gestures. We feed that data into a model that we trained with around 25 thousand pictures 
+                that returns a sign languange letter with __% confidence!
+            </p>
         </div>
     </div>
     <a href="asl.html" class="run-model-button">Run Model</a>

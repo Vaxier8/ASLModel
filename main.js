@@ -9,7 +9,7 @@ const keypointsCtx = keypointsCanvas.getContext("2d");
 
 let isCameraOn = false;
 let showKeypoints = true;
-var delay = 2000;
+var delay = 0;
 
 async function setupCamera() {
   const stream = await navigator.mediaDevices.getUserMedia({
