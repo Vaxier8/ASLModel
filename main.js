@@ -15,6 +15,7 @@ var delay = 2000;
 const textOutput = document.getElementById("textOutput");
 let arr = [null, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
  'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '0'];
+import * as tf from "https://cdn.skypack.dev/@tensorflow/tfjs";
 
 
 async function loadModelAndPredict(inputData) { 
@@ -26,7 +27,7 @@ async function loadModelAndPredict(inputData) {
     
     // Prepare the input data 
     // inputData should be an array or a tensor with the shape your model expects 
-    const input = tf.tensor(inputData);
+    const input = tf.tensor(inputData).reshape([1, 42]);
     
     // Make a prediction using the model 
     const prediction = model.predict(input);
@@ -38,9 +39,8 @@ async function loadModelAndPredict(inputData) {
     const predictionArray = await prediction.array();
     
     // Log the prediction to the console 
-    for(var i = 0; i < predictionArray.length(); i++) {
-        console.log("Prediction:", predictionArray[i]);
-    }
+    const x = predictionArray.indexOf(Math.max(predictionArray[0][0]));
+    console.log("Prediction:", x);
     
     // Don't forget to dispose the tensors to avoid memory leaks 
     input.dispose(); 
@@ -81,6 +81,7 @@ async function detectHands() {
   
     const keypointsOutput = document.getElementById("keypointsOutput");
     keypointsOutput.innerHTML = ""; // Clear previous keypoints
+    var tensorInput;
   
     for (let i = 0; i < predictions.length; i++) {
       const keypoints = predictions[i].landmarks;
@@ -105,7 +106,11 @@ async function detectHands() {
         keypointsCtx.fillStyle = "red";
         keypointsCtx.fill();
       }
+      tensorInput = normalizedKeypoints;
     }
+    // console.log(tensorInput);
+
+    loadModelAndPredict(tensorInput);
   
     if (isCameraOn) {
       // Call the detect function again after a delay for keypoint detection
