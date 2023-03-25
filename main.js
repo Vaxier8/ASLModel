@@ -9,7 +9,7 @@ const keypointsCtx = keypointsCanvas.getContext("2d");
 
 let isCameraOn = false;
 let showKeypoints = true;
-var delay = 0;
+var delay = 2000;
 
 async function setupCamera() {
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -41,21 +41,27 @@ async function detectHands() {
 
   async function detect() {
     const predictions = await model.estimateHands(video);
-
     keypointsCtx.clearRect(0, 0, keypointsCanvas.width, keypointsCanvas.height);
 
-    if (showKeypoints) {
-      for (let i = 0; i < predictions.length; i++) {
-        const keypoints = predictions[i].landmarks;
+    const keypointsOutput = document.getElementById("keypointsOutput");
+    keypointsOutput.innerHTML = ""; // Clear previous keypoints
+    
+    for (let i = 0; i < predictions.length; i++) {
+      const keypoints = predictions[i].landmarks;
 
-        // Draw dots at each keypoint
-        for (let j = 0; j < keypoints.length; j++) {
-          keypointsCtx.beginPath();
-          keypointsCtx.arc(keypoints[j][0], keypoints[j][1], 5, 0, 2 * Math.PI);
-          keypointsCtx.fillStyle = "red";
-          keypointsCtx.fill();
-        }
-      }
+      const keypointsText = `Hand ${i + 1}: ${JSON.stringify(keypoints)}`;
+      const keypointsElement = document.createElement("pre");
+      keypointsElement.textContent = keypointsText;
+      keypointsOutput.appendChild(keypointsElement);
+
+      // Draw dots at each keypoint
+for (let j = 0; j < keypoints.length; j++) {
+  keypointsCtx.beginPath();
+  keypointsCtx.arc(keypoints[j][0], keypoints[j][1], 5, 0, 2 * Math.PI);
+  keypointsCtx.fillStyle = "red";
+  keypointsCtx.fill();
+}
+
     }
 
     if (isCameraOn) {
