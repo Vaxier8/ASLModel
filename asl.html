@@ -40,6 +40,7 @@
       border-radius: 4px;
       outline: none;
     }
+    
 
     button:hover {
       background-color: #4da9e7;
@@ -74,6 +75,15 @@
       left: 20;
       right: 0;
     }
+    .keypoints-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+      padding-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -86,6 +96,9 @@
     <video id="video" width="640" height="480" style="display: none;"></video>
     <canvas id="videoCanvas" width="640" height="480" style="display: none;"></canvas>
     <canvas id="keypointsCanvas" width="640" height="480"></canvas>
+  </div>
+  <div class="keypoints-container">
+    <div id="keypointsOutput" style="color:white"> </div>
   </div>
   <script src="main.js"></script>
 </body>
