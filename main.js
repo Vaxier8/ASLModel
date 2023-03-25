@@ -39,8 +39,8 @@ async function loadModelAndPredict(inputData) {
     const predictionArray = await prediction.array();
     
     // Log the prediction to the console 
-    const x = predictionArray.indexOf(Math.max(predictionArray[0][0]));
-    console.log("Prediction:", x);
+    const x = predictionArray[0].indexOf(Math.max(...predictionArray[0]));
+    console.log("Prediction:", arr[x]);
     
     // Don't forget to dispose the tensors to avoid memory leaks 
     input.dispose(); 
