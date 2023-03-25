@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hand Detection</title>
+  <!-- Import TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.12.0"></script>
+  <!-- Import Hand Detection model -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose@0.0.7"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #282c34;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #61dafb;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    button:hover {
+      background-color: #4da9e7;
+    }
+
+    button:active {
+      background-color: #3b8dbd;
+    }
+
+    button:disabled {
+      background-color: #a9a9a9;
+      cursor: not-allowed;
+    }
+
+    .video-container {
+      position: absolute;
+      display: flex;
+      /* align-items: center; */
+      justify-content: center; /* Add this line */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Add this line */
+    }
+
+    canvas, video {
+      width: 640px;
+      height: 480px;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      left: 20;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-container">
+    <button id="startButton">Start Camera</button>
+    <button id="stopButton" disabled>Stop Camera</button>
+    <button id="toggleKeypointsButton">Toggle Keypoints</button>
+  </div>
+  <div class="video-container">
+    <video id="video" width="640" height="480" style="display: none;"></video>
+    <canvas id="videoCanvas" width="640" height="480" style="display: none;"></canvas>
+    <canvas id="keypointsCanvas" width="640" height="480"></canvas>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
