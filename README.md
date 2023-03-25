@@ -6,6 +6,7 @@
 
 Brayden Nguyen, Logan Warren, Xavier Bear, Chris Landingin
 
+## Description
 
 Our ASL Letter Recognition web application is designed to recognize American Sign Language (ASL) letters in real-time from live video input. The application works by taking in live video footage from the device's webcam of the user's hands, processing it using a neural network that we have trained to 75% accuracy, and then writing the corresponding ASL letter on the screen.
 
