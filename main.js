@@ -10,7 +10,7 @@ const keypointsCtx = keypointsCanvas.getContext("2d");
 
 let isCameraOn = false;
 let showKeypoints = true;
-var delay = 2000;
+var delay = 0;
 
 const textOutput = document.getElementById("textOutput");
 let arr = [null, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
@@ -157,10 +157,11 @@ async function main() {
   });
 
   toggleKeypointsButton.addEventListener("click", () => {
-    showKeypoints = !showKeypoints;
-    toggleKeypointsButton.textContent = showKeypoints
-      ? "Hide Keypoints"
-      : "Show Keypoints";
+    if(keypointsOutput.style.display == "none") {
+      keypointsOutput.style.display = "block";
+    } else {
+      keypointsOutput.style.display = "none";
+    }
   });
 }
 
